@@ -39,7 +39,7 @@
     <!-- End Meta Pixel Code -->
 
     <style>
-        /* ===== OPTIMIZED CSS - REDUCED FILE SIZE ===== */
+        /* ===== OPTIMIZED CSS ===== */
         :root {
             --primary-coral: #FF5E8E;
             --lavender: #6A67CE;
@@ -79,7 +79,7 @@
         .mb-3 { margin-bottom: 0.75rem !important; }
         .g-5 { gap: 1.5rem !important; }
 
-        /* ===== HERO SECTION - COMPACT ===== */
+        /* ===== HERO SECTION ===== */
         .hero-section {
             background: linear-gradient(135deg, var(--white), var(--cream));
             padding: 70px 0 50px;
@@ -107,7 +107,6 @@
             font-weight: 800;
         }
 
-        /* ===== COMPACT HERO TEXT ===== */
         .hero-text-compact {
             max-width: 600px;
             margin: 0 auto 1.5rem;
@@ -115,7 +114,7 @@
             line-height: 1.4;
         }
 
-        /* ===== ABOUT SECTION - REDUCED GAP ===== */
+        /* ===== ABOUT SECTION ===== */
         .about-img {
             width: 100%;
             height: 400px;
@@ -136,7 +135,7 @@
             padding-left: 0.5rem;
         }
 
-        /* ===== WHATSAPP BUTTON - CONSISTENT STYLE ===== */
+        /* ===== WHATSAPP BUTTON ===== */
         .wa-btn {
             background: var(--success);
             color: var(--white);
@@ -310,7 +309,6 @@
         <div class="container position-relative">
             <div class="badge-custom animate-stagger mb-3" style="--order: 1;">🚺 Women Only Community</div>
             
-            <!-- COMPACT 2-LINE TEXT -->
             <h1 class="display-3 fw-bold gradient-text mb-2 animate-stagger" style="--order: 2;">
                 Join <span class="counter" data-target="100000" data-suffix="+">0</span> Women
             </h1>
@@ -650,7 +648,7 @@
         const closeFormBtn = document.getElementById('closeFormBtn');
         const WA_NUMBER_INT = "917983819665";
         
-        // ✅ YOUR GOOGLE SHEETS URL (already integrated)
+        // ✅ YOUR GOOGLE SHEETS URL
         const SHEET_URL = "https://script.google.com/macros/s/AKfycbzxoesXF7YUwbK3yb7jqhcBFW_4kpe-XaABuowrj3IfijhJjTqngbvLzcUrZp1rq9z1/exec";
 
         function openForm(source = 'site') {
@@ -678,7 +676,8 @@
             }
         });
 
-        mainForm.addEventListener('submit', async (e) => {
+        // ===== INSTANT WHATSAPP REDIRECT - NO WAITING =====
+        mainForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const name = document.getElementById('inp_name').value.trim();
             const phone = document.getElementById('inp_phone').value.replace(/\D/g, '');
@@ -692,13 +691,7 @@
                 return;
             }
 
-            // Show loading state
-            const submitBtn = mainForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            submitBtn.innerHTML = '<i data-lucide="loader" width="20" class="spin"></i> Sending...';
-            submitBtn.disabled = true;
-
-            // Prepare data for Google Sheets
+            // Prepare data for Google Sheets (runs in background)
             const sheetData = {
                 name: name,
                 phone: phone,
@@ -709,42 +702,35 @@
                 timestamp: new Date().toLocaleString("en-IN", {timeZone: "Asia/Kolkata"})
             };
 
-            try {
-                // Send data to Google Sheets
-                const response = await fetch(`${SHEET_URL}?` + new URLSearchParams(sheetData), {
-                    method: 'GET',
-                    mode: 'no-cors'
-                });
-                
+            // SEND TO GOOGLE SHEETS IN BACKGROUND (don't wait)
+            fetch(`${SHEET_URL}?` + new URLSearchParams(sheetData), {
+                method: 'GET',
+                mode: 'no-cors'
+            }).then(() => {
                 console.log('Data sent to Google Sheets');
-                
-                // Track Meta Pixel events
-                if (typeof fbq !== 'undefined') {
-                    fbq('track', 'Contact');
-                    fbq('track', 'Lead', {
-                        content_name: 'WhatsApp Form Submission',
-                        content_category: 'Lead Generation',
-                        content_source: source
-                    });
-                }
-                
-                // Prepare WhatsApp message
-                const message = encodeURIComponent(
-                    `Hello Mariyam Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`
-                );
-                
-                // Open WhatsApp
-                window.open(`https://wa.me/${WA_NUMBER_INT}?text=${message}`, '_blank');
-                
-            } catch (error) {
+            }).catch(error => {
                 console.error('Error sending to Sheets:', error);
-                alert('Error saving data. Please try again.');
-            } finally {
-                // Restore button
-                submitBtn.innerHTML = originalBtnText;
-                submitBtn.disabled = false;
-                closeForm();
+            });
+
+            // Track Meta Pixel events
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Contact');
+                fbq('track', 'Lead', {
+                    content_name: 'WhatsApp Form Submission',
+                    content_category: 'Lead Generation',
+                    content_source: source
+                });
             }
+
+            // OPEN WHATSAPP IMMEDIATELY
+            const message = encodeURIComponent(
+                `Hello Mariyam Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`
+            );
+            
+            window.open(`https://wa.me/${WA_NUMBER_INT}?text=${message}`, '_blank');
+            
+            // Close form
+            closeForm();
         });
 
         document.addEventListener('keydown', (e) => {
