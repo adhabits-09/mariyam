@@ -20,6 +20,24 @@
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
     
+    <!-- Meta Pixel Code -->
+    <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1133368601994549');
+    fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1133368601994549&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+
     <style>
         /* ===== OPTIMIZED CSS - REDUCED FILE SIZE ===== */
         :root {
@@ -168,33 +186,6 @@
             color: var(--primary-coral);
         }
 
-        /* ===== FEEDBACK CAROUSEL ===== */
-        .feedback-viewport {
-            overflow: hidden;
-            border-radius: 12px;
-            margin: 1.5rem 0;
-        }
-
-        .feedback-track {
-            display: flex;
-            gap: 15px;
-            animation: infiniteScroll 30s linear infinite;
-        }
-
-        .feedback-track:hover { animation-play-state: paused; }
-
-        .feedback-item img {
-            display: block;
-            height: 300px;
-            width: auto;
-            object-fit: cover;
-        }
-
-        @keyframes infiniteScroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-
         /* ===== STEPS ===== */
         .step-card {
             background: var(--white);
@@ -297,7 +288,6 @@
             section { padding: 40px 0; }
             .hero-section { padding: 50px 0 30px; }
             .about-img { height: 280px; }
-            .feedback-item img { height: 250px; }
             .counter { font-size: 1.6rem; }
             .wa-btn { width: 100%; justify-content: center; }
             h1.display-3 { font-size: 2rem; }
@@ -333,7 +323,7 @@
         <div class="container">
             <div class="row g-4 align-items-center">
                 <div class="col-lg-6 animate-stagger" style="--order: 1;">
-                    <img src="https://i.ibb.co/BK724dHs/IMG-8913.jpg" alt="Mariyam Siddiqui" class="about-img" loading="lazy">
+                    <img src="https://instasize.com/p/b3e339241d4f2a9b729a22c9b8ca315e7b00f4c1402925f86b05396e779821e0" alt="Mariyam Siddiqui" class="about-img" loading="lazy">
                 </div>
                 <div class="col-lg-6 animate-stagger about-content" style="--order: 2;">
                     <div class="badge-custom mb-2">💫 Your Coach</div>
@@ -379,49 +369,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ===== FEEDBACK SECTION ===== -->
-    <section class="py-5" style="background: linear-gradient(135deg, var(--cream), var(--white));">
-        <div class="container">
-            <h2 class="text-center display-5 fw-bold mb-3 animate-stagger" style="--order: 1;">✨ Real Success Stories</h2>
-            <p class="text-center text-muted mb-4 animate-stagger" style="--order: 2;">Screenshots from our thriving community</p>
-            
-            <div class="feedback-viewport animate-stagger" style="--order: 3;">
-                <div class="feedback-track" id="feedbackTrack">
-                    <a class="feedback-item" href="https://ibb.co/8ghTj2zj" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/v4tgJmsJ/premimun-fb.jpg" alt="Student Feedback" loading="lazy">
-                    </a>
-                    <a class="feedback-item" href="https://ibb.co/9HtMg85b" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/whsvg0mS/Whats-App-Image-2025-11-02-at-12-10-25-PM-4.jpg" alt="Earning Proof" loading="lazy">
-                    </a>
-                    <a class="feedback-item" href="https://ibb.co/XZS8Jqm4" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/pvJyXSCP/Whats-App-Image-2025-11-02-at-12-10-25-PM-1.jpg" alt="Community Feedback" loading="lazy">
-                    </a>
-                    <a class="feedback-item" href="https://ibb.co/gLGpY8wZ" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/C3qZLyvK/Whats-App-Image-2025-11-02-at-12-10-24-PM-1.jpg" alt="Success Story" loading="lazy">
-                    </a>
-                    <a class="feedback-item" href="https://ibb.co/N6dGqGcn" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/yncxCxHB/Whats-App-Image-2025-11-02-at-12-10-24-PM.jpg" alt="Student Achievement" loading="lazy">
-                    </a>
-                    <!-- Duplicates for seamless loop -->
-                    <a class="feedback-item" href="https://ibb.co/8ghTj2zj" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/v4tgJmsJ/premimun-fb.jpg" alt="Student Feedback" loading="lazy">
-                    </a>
-                    <a class="feedback-item" href="https://ibb.co/9HtMg85b" target="_blank" rel="noopener">
-                        <img src="https://i.ibb.co/whsvg0mS/Whats-App-Image-2025-11-02-at-12-10-25-PM-4.jpg" alt="Earning Proof" loading="lazy">
-                    </a>
-                </div>
-            </div>
-            
-            <!-- BUTTON 3: AFTER FEEDBACK -->
-            <div class="text-center mt-4">
-                <button class="wa-btn open-any" data-source="Feedback Section">
-                    <i data-lucide="message-circle" width="20"></i>
-                    View More Proofs
-                </button>
             </div>
         </div>
     </section>
@@ -590,7 +537,7 @@
                     <div class="col-md-4"><div class="bg-white bg-opacity-30 p-3 rounded"><strong>🎂 Age:</strong> Your Age</div></div>
                     <div class="col-md-4"><div class="bg-white bg-opacity-30 p-3 rounded"><strong>💼 Profession:</strong> Current Status</div></div>
                 </div>
-                <p class="fs-6 fw-semibold mb-3">📌 Save My Number: 7017839604</p>
+                <p class="fs-6 fw-semibold mb-3">📌 Save My Number: 7983819665</p>
                 
                 <!-- BUTTON 5: FINAL CTA -->
                 <button class="wa-btn open-any" data-source="Final CTA" style="background: white; color: var(--success);">
@@ -696,20 +643,13 @@
         }, { threshold: 0.3 });
         counters.forEach(counter => counterObserver.observe(counter));
 
-        // Feedback Carousel
-        const feedbackTrack = document.getElementById('feedbackTrack');
-        if(feedbackTrack) {
-            const children = Array.from(feedbackTrack.children);
-            children.forEach(child => feedbackTrack.appendChild(child.cloneNode(true)));
-        }
-
-        // Form Logic
+        // Form Logic with Meta Pixel Tracking
         const formBackdrop = document.getElementById('formBackdrop');
         const formContainer = document.getElementById('formContainer');
         const mainForm = document.getElementById('mainForm');
         const sourceInfo = document.getElementById('sourceInfo');
         const closeFormBtn = document.getElementById('closeFormBtn');
-        const WA_NUMBER_INT = "917017839604";
+        const WA_NUMBER_INT = "917983819665"; // Updated WhatsApp number
 
         function openForm(source = 'site') {
             sourceInfo.value = source;
@@ -752,6 +692,16 @@
             const message = encodeURIComponent(
                 `Hello Mariyam Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`
             );
+
+            // Track Meta Pixel events before redirect
+            if (typeof fbq !== 'undefined') {
+                fbq('track', 'Contact');
+                fbq('track', 'Lead', {
+                    content_name: 'WhatsApp Form Submission',
+                    content_category: 'Lead Generation',
+                    content_source: sourceInfo.value
+                });
+            }
 
             window.open(`https://wa.me/${WA_NUMBER_INT}?text=${message}`, '_blank');
             closeForm();
