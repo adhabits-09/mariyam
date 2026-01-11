@@ -83,7 +83,7 @@
         .form-backdrop.show{opacity:1;visibility:visible}
         #formContainer{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.9);z-index:10000;max-width:500px;width:90%;max-height:85vh;opacity:0;visibility:hidden;transition:all .4s ease}
         #formContainer.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
-        .form-control,.form-select{border:2px solid #e5e5e5;border-radius:8px;padding:.6rem .9rem;transition:all .3s ease}
+        .form-control,.form-select{border:2px solid #E5E5E5;border-radius:8px;padding:.6rem .9rem;transition:all .3s ease}
         .form-control:focus,.form-select:focus{border-color:var(--primary-coral);box-shadow:0 0 0 4px rgba(255,94,142,.15)}
         @media (max-width:768px){
             section{padding:40px 0}
@@ -309,12 +309,12 @@
                 <div class="col-md-4"><div class="bg-white bg-opacity-30 p-3 rounded"><strong>🎂 Age:</strong> Your Age</div></div>
                 <div class="col-md-4"><div class="bg-white bg-opacity-30 p-3 rounded"><strong>💼 Profession:</strong> Current Status</div></div>
             </div>
-            <p class="fs-6 fw-semibold mb-3">📌 Save My Number: 7017839604</p>
+            <p class="fs-6 fw-semibold mb-3">📌 Save My Number: 8755268541</p>
             <button class="wa-btn open-any" data-source="Final CTA" style="background:white;color:var(--success)"><i data-lucide="message-circle" width="22"></i>Message on WhatsApp Now</button>
         </div>
 
         <div class="card bg-white bg-opacity-25 border-0 p-3 mb-3">
-            <h4 class="h5 fw-bold mb-2 text-white">⏳ Within 24 hours:</h4>
+            <h4 class="h5 fw-bold mb-2">⏳ Within 24 hours:</h4>
             <div class="row text-white">
                 <div class="col-md-6"><div class="d-flex align-items-center gap-2 justify-content-center">📋 Complete Details</div></div>
                 <div class="col-md-6"><div class="d-flex align-items-center gap-2 justify-content-center">🗺 Clear Roadmap</div></div>
@@ -411,9 +411,10 @@
     const mainForm=document.getElementById('mainForm');
     const sourceInfo=document.getElementById('sourceInfo');
     const closeFormBtn=document.getElementById('closeFormBtn');
-    const WA_NUMBER_INT="918218730811";
-    // NEW GOOGLE-SCRIPT URL
-    const SHEET_URL="https://script.google.com/macros/s/AKfycbw9xV7Tng5ZG5w5SLt8VLe73THU-XyzQQSJabY7KFt054FGJnWpj5b19239eETNYxQs/exec";
+    // NEW WHATSAPP NUMBER
+    const WA_NUMBER_INT="918755268541";
+    // 👇 ONLY NEW SHEET URL (aapka latest)
+    const SCRIPT_URL="https://script.google.com/macros/s/AKfycbxnvdUoZFXU3Fa99gG5mzGpctB6688ySxJSzHmnHOdoILHQOx1DWhdIEvdGOmS5HvpZnw/exec";
 
     function openForm(source='site'){
         sourceInfo.value=source;
@@ -437,7 +438,7 @@
         }
     });
 
-    /* ---- SUBMIT → SHEETS + WHATSAPP ---- */
+    /* ---- SUBMIT → SHEET + WHATSAPP ---- */
     mainForm.addEventListener('submit',(e)=>{
         e.preventDefault();
         const name=document.getElementById('inp_name').value.trim();
@@ -448,26 +449,38 @@
         const source=sourceInfo.value||'Website';
         if(!name||phone.length<6||!age||!gender||!profession){alert('Please fill all fields correctly.'); return;}
 
-        // SEND TO GOOGLE SHEETS (background)
-        const sheetData={
-            name:name, phone:phone, age:age, gender:gender, profession:profession, source:source,
-            timestamp:new Date().toLocaleString("en-IN",{timeZone:"Asia/Kolkata"})
-        };
-        fetch(`${SHEET_URL}?`+new URLSearchParams(sheetData),{method:'GET',mode:'no-cors'})
-         .then(()=>console.log('Data sent to Google Sheets'))
-         .catch(err=>console.error('Sheets error:',err));
+        // ---- 1) SEND DATA TO ONLY NEW SHEET ----
+        const formData=new FormData();
+        formData.append('name',name);
+        formData.append('phone',phone);
+        formData.append('age',age);
+        formData.append('gender',gender);
+        formData.append('profession',profession);
+        formData.append('source',source);
+        formData.append('timestamp',new Date().toISOString());
 
-        // META PIXEL
+        fetch(SCRIPT_URL,{
+            method:'POST',
+            body:formData,
+            mode:'no-cors'
+        }).catch(err=>console.error('Sheet error:',err));
+
+        // ---- 2) WHATSAPP MESSAGE REDIRECT ----
+        const message=encodeURIComponent(
+            `Hello Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`
+        );
+
+        // Track Meta Pixel events before redirect
         if(typeof fbq!=='undefined'){
             fbq('track','Contact');
-            fbq('track','Lead',{content_name:'WhatsApp Form Submission',content_category:'Lead Generation',content_source:source});
+            fbq('track','Lead',{
+                content_name:'WhatsApp Form Submission',
+                content_category:'Lead Generation',
+                content_source:source
+            });
         }
 
-        // OPEN WHATSAPP IMMEDIATELY
-        const msg=encodeURIComponent(
-            `Hello Mariyam Ma'am,\n\nI am interested in your program. Here are my details:\n\nName: ${name}\nPhone: ${phone}\nAge: ${age}\nGender: ${gender}\nProfession: ${profession}\n\nPlease share next steps. Thank you!`
-        );
-        window.open(`https://wa.me/${WA_NUMBER_INT}?text=${msg}`,'_blank');
+        window.open(`https://wa.me/${WA_NUMBER_INT}?text=${message}`,'_blank');
         closeForm();
     });
 
