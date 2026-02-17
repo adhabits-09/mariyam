@@ -85,6 +85,45 @@
         #formContainer.show{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
         .form-control,.form-select{border:2px solid #E5E5E5;border-radius:8px;padding:.6rem .9rem;transition:all .3s ease}
         .form-control:focus,.form-select:focus{border-color:var(--primary-coral);box-shadow:0 0 0 4px rgba(255,94,142,.15)}
+        
+        /* Privacy Policy Styles - Seema wale jaisa hi */
+        .pp-overlay-new{position:fixed;inset:0;background:rgba(26,26,46,0.75);backdrop-filter:blur(4px);z-index:10001;opacity:0;visibility:hidden;transition:opacity 0.3s ease;}
+        .pp-overlay-new.show{opacity:1;visibility:visible;}
+        .pp-modal-new{position:fixed;top:50%;left:50%;transform:translate(-50%, -50%) scale(0.95);width:90%;max-width:560px;max-height:86vh;background:var(--white);border-radius:16px;box-shadow:0 20px 40px rgba(255,94,142,0.25);display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:all 0.3s ease;border:2px solid var(--primary-coral);}
+        .pp-overlay-new.show .pp-modal-new{opacity:1;visibility:visible;transform:translate(-50%, -50%) scale(1);}
+        .pp-header-new{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 1.5rem;border-bottom:1px solid var(--cream);background:linear-gradient(135deg, var(--cream), var(--white));border-radius:14px 14px 0 0;}
+        .pp-title-new{font-size:1.25rem;font-weight:700;color:var(--primary-coral);margin:0;}
+        .pp-close-new{background:none;border:none;font-size:1.5rem;color:var(--primary-coral);cursor:pointer;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;}
+        .pp-close-new:hover{color:var(--lavender);background:var(--cream);}
+        .pp-body-new{padding:1.5rem;overflow-y:auto;font-size:0.95rem;line-height:1.6;color:var(--text-dark);}
+        .pp-body-new h3{font-size:1rem;font-weight:600;margin:1rem 0 0.5rem;color:var(--primary-coral);}
+        .pp-body-new h3:first-child{margin-top:0;}
+        .pp-footer-new{margin-top:1rem;font-size:0.85rem;font-weight:600;text-align:center;color:var(--primary-coral);padding-top:1rem;border-top:1px solid var(--cream);}
+        
+        /* Privacy Policy Button - Hamesha visible, dark pink/coral color me */
+        .privacy-btn-new {
+            background: transparent;
+            border: 2px solid var(--primary-coral);
+            color: var(--primary-coral);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+        .privacy-btn-new:hover {
+            background: var(--primary-coral);
+            color: var(--white);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 94, 142, 0.3);
+        }
+        
         @media (max-width:768px){
             section{padding:40px 0}
             .hero-section{padding:50px 0 30px}
@@ -93,6 +132,7 @@
             .wa-btn{width:100%;justify-content:center}
             h1.display-3{font-size:2rem}
             h2.display-5{font-size:1.5rem}
+            .pp-modal-new{width:92%;}
         }
         @media (prefers-reduced-motion:reduce){
             *{animation-duration:.01ms!important;transition-duration:.01ms!important}
@@ -103,6 +143,31 @@
 
 <!-- FORM POPUP BACKDROP -->
 <div class="form-backdrop" id="formBackdrop"></div>
+
+<!-- PRIVACY POLICY MODAL - Seema wale jaisa -->
+<div class="pp-overlay-new" id="ppOverlayNew">
+    <div class="pp-modal-new">
+        <div class="pp-header-new">
+            <div class="pp-title-new">Privacy Policy</div>
+            <button class="pp-close-new" id="ppCloseNew">&times;</button>
+        </div>
+        <div class="pp-body-new">
+            <h3>Information We Collect</h3>
+            <p>We collect information you provide directly to us, such as your name, phone number, and email address when you contact us through WhatsApp or other channels.</p>
+            
+            <h3>How We Use Your Information</h3>
+            <p>Your information is used solely to communicate with you about our training programs, provide customer support, and send updates about courses you've expressed interest in.</p>
+            
+            <h3>Data Protection</h3>
+            <p>We implement appropriate security measures to protect your personal information. Your data is never sold or shared with third parties for marketing purposes.</p>
+            
+            <h3>Your Rights</h3>
+            <p>You have the right to access, correct, or delete your personal information at any time. Contact us to exercise these rights or for any privacy-related concerns.</p>
+            
+            <div class="pp-footer-new">By using our services, you agree to this privacy policy. Last updated: January 2026</div>
+        </div>
+    </div>
+</div>
 
 <!-- HERO SECTION -->
 <section class="hero-section text-center">
@@ -311,6 +376,11 @@
             </div>
             <p class="fs-6 fw-semibold mb-3">📌 Save My Number: 7017839604</p>
             <button class="wa-btn open-any" data-source="Final CTA" style="background:white;color:var(--success)"><i data-lucide="message-circle" width="22"></i>Message on WhatsApp Now</button>
+            
+            <!-- Privacy Policy Button - Hamesha visible dark pink/coral color me -->
+            <button class="privacy-btn-new" id="privacyBtn">
+                <i data-lucide="shield-check" width="16"></i> Privacy Policy
+            </button>
         </div>
 
         <div class="card bg-white bg-opacity-25 border-0 p-3 mb-3">
@@ -485,6 +555,33 @@
     });
 
     document.addEventListener('keydown',(e)=>{if(e.key==='Escape') closeForm();});
+
+    /* ---- PRIVACY POLICY LOGIC ---- */
+    const ppOverlayNew=document.getElementById('ppOverlayNew');
+    const ppCloseNew=document.getElementById('ppCloseNew');
+    const privacyBtn=document.getElementById('privacyBtn');
+    
+    function openPPNew(){
+        ppOverlayNew.classList.add('show');
+        document.body.style.overflow='hidden';
+    }
+    
+    function closePPNew(){
+        ppOverlayNew.classList.remove('show');
+        document.body.style.overflow='';
+    }
+
+    privacyBtn.addEventListener('click',openPPNew);
+    ppCloseNew.addEventListener('click',closePPNew);
+    ppOverlayNew.addEventListener('click',(e)=>{
+        if(e.target===ppOverlayNew) closePPNew();
+    });
+    
+    document.addEventListener('keydown',(e)=>{
+        if(e.key==='Escape' && ppOverlayNew.classList.contains('show')){
+            closePPNew();
+        }
+    });
 </script>
 </body>
 </html>
